@@ -2,7 +2,7 @@
 
 #RUN ME on ARM64 Hardware!
 CPU_ARCH=$(uname -m)
-if [$CPU_ARCH -ne "aarch64"]; then
+if ["$CPU_ARCH" -ne "aarch64"]; then
     echo "Build script must run on ARM64 hardware.  Please rerun"
     exit 1
 fi
