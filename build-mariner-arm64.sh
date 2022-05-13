@@ -7,6 +7,18 @@ if [$CPU_ARCH -ne "aarch64"]; then
     exit 1
 fi
 
+#Run as sudo if we're not already
+if ! [[ "$EUID" = 0 ]]; then    
+    sudo -k # make sure to ask for password on next sudo
+    if sudo true; then
+        echo "(2) correct password"
+    else
+        echo "(3) wrong password"
+        exit 1
+    fi
+fi
+
+
 sudo apt -y install make tar wget curl rpm qemu-utils genisoimage bison gawk pigz
 
 if ! [ -f "/usr/bin/go" ];then
