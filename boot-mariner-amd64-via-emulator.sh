@@ -2,8 +2,8 @@
 
 MARINER_ISO=""
 MARINER_RUN_DIR="CBL-Mariner-Run"
-MARINER_ARM64_BUILD_TAR="mariner-amd64.tar.gz"
-PKGS='qemu qemu-system qemu-efi qemu-system-x86 qemu-system-aarch64 qemu-utils'
+MARINER_BUILD_TAR="mariner-amd64.tar.gz"
+PKGS='qemu qemu-system qemu-efi qemu-system-x86 qemu-system-x86 qemu-utils'
 FLASH0="flash0-x86.img"
 FLASH1="flash1-x86.img" 
 DATADRIVE="mariner-data-drive-x86.gcow2" 
@@ -13,7 +13,6 @@ MAX_MEMORY_GB=64
 MEMORY_GB=$(grep MemTotal /proc/meminfo | awk '{print $2}') #Memory is in KB first
 MEMORY_GB=$((((MEMORY_GB))/1024)) #Convert KB to MB
 MEMORY_GB=$((((MEMORY_GB))/1024)) #Convert MB to GB
-
 
 #RUN ME on X86_64 Hardware!
 CPU_ARCH=$(uname -m)
@@ -26,12 +25,12 @@ fi
 #Check if the demo_iso director is available
 if [ ! -d "$MARINER_RUN_DIR/demo_iso" ]; then
     #Check if the tar ball from build-mariner-arm64.sh is available
-    if [ ! -f "$MARINER_RUN_DIR/$MARINER_ARM64_BUILD_TAR" ]; then
-        echo "Boot script unable to find '$MARINER_RUN_DIR/$MARINER_ARM64_BUILD_TAR'.  Run 'build-mariner-amd64.sh' on x86 hardware and copy to $MARINER_RUN_DIR"
+    if [ ! -f "$MARINER_RUN_DIR/$MARINER_BUILD_TAR" ]; then
+        echo "Boot script unable to find '$MARINER_RUN_DIR/$MARINER_BUILD_TAR'.  Run 'build-mariner-amd64.sh' on x86 hardware and copy to $MARINER_RUN_DIR"
         exit 1    
     fi
     pushd $MARINER_RUN_DIR
-    tar -xvf $MARINER_ARM64_BUILD_TAR    
+    tar -xvf $MARINER_BUILD_TAR    
     popd
 fi
 
@@ -56,14 +55,15 @@ if ! [[ "$EUID" = 0 ]]; then
 fi
 
 #Our machine has more memory than our configured max.  Set it to the max
-if [$MEMORY_GB -gt $MAX_MEMORY]; then
-    $MEMORY_GB = $MAX_MEMORY
+if [[ $MEMORY_GB -gt $MAX_MEMORY_GB ]]; then
+    MEMORY_GB=$MAX_MEMORY_GB
 fi
 
 #Our machine has more cores than our configured max.  Set it to the max
-if [$CORECOUNT -gt $MAX_CORE_COUNT]; then
-    $CORECOUNT = $MAX_CORE_COUNT
+if [[ $CORECOUNT -gt $MAX_CORE_COUNT ]]; then
+    CORECOUNT=$MAX_CORE_COUNT
 fi
+
 
 #Install any packages that are missing
 if ! dpkg -s $PKGS >/dev/null 2>&1; then
@@ -92,12 +92,9 @@ echo "-------------------------"
 echo ""
 echo ""
 
-qemu-system-x86 -nographic -machine virt,gic-version=max \
+qemu-system-x86_64 -nographic \
     -m ${MEMORY_GB}G \
     -cpu max \
-    -smp ${CORECOUNT} \
     -netdev user,id=vnet,hostfwd=:127.0.0.1:0-:22 -device virtio-net-pci,netdev=vnet \
     -drive file=${MARINER_RUN_DIR}/${DATADRIVE},if=none,id=drive0,cache=writeback -device virtio-blk,drive=drive0,bootindex=0 \
-    -drive file=${MARINER_ISO},if=none,id=drive1,cache=writeback -device virtio-blk,drive=drive1,bootindex=1 \
-    -drive file=${MARINER_RUN_DIR}/${FLASH0},format=raw,if=pflash \
-    -drive file=${MARINER_RUN_DIR}/${FLASH1},format=raw,if=pflash 
+    -drive file=${MARINER_ISO},if=none,id=drive1,cache=writeback -device virtio-blk,drive=drive1,bootindex=1

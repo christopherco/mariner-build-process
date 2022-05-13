@@ -2,7 +2,7 @@
 
 MARINER_ISO=""
 MARINER_RUN_DIR="CBL-Mariner-Run"
-MARINER_ARM64_BUILD_TAR="mariner-arm64.tar.gz"
+MARINER_BUILD_TAR="mariner-arm64.tar.gz"
 PKGS='qemu qemu-system qemu-efi qemu-system-aarch64 qemu-utils'
 FLASH0="flash0.img"
 FLASH1="flash1.img" 
@@ -26,12 +26,12 @@ fi
 #Check if the demo_iso director is available
 if [ ! -d "$MARINER_RUN_DIR/demo_iso" ]; then
     #Check if the tar ball from build-mariner-arm64.sh is available
-    if [ ! -f "$MARINER_RUN_DIR/$MARINER_ARM64_BUILD_TAR" ]; then
-        echo "Boot script unable to find '$MARINER_RUN_DIR/$MARINER_ARM64_BUILD_TAR'.  Run 'build-mariner-arm64.sh' on ARM hardware and copy to $MARINER_RUN_DIR"
+    if [ ! -f "$MARINER_RUN_DIR/$MARINER_BUILD_TAR" ]; then
+        echo "Boot script unable to find '$MARINER_RUN_DIR/$MARINER_BUILD_TAR'.  Run 'build-mariner-arm64.sh' on ARM hardware and copy to $MARINER_RUN_DIR"
         exit 1    
     fi
     pushd $MARINER_RUN_DIR
-    tar -xvf $MARINER_ARM64_BUILD_TAR    
+    tar -xvf $MARINER_BUILD_TAR    
     popd
 fi
 
@@ -56,8 +56,8 @@ if ! [[ "$EUID" = 0 ]]; then
 fi
 
 #Our machine has more memory than our configured max.  Set it to the max
-if [$MEMORY_GB -gt $MAX_MEMORY]; then
-    $MEMORY_GB = $MAX_MEMORY
+if [$MEMORY_GB -gt $MAX_MEMORY_GB]; then
+    MEMORY_GB=$MAX_MEMORY_GB
 fi
 
 #Our machine has more cores than our configured max.  Set it to the max
