@@ -1,3 +1,5 @@
 #Ignore everything in the output directory
 /CBL-Mariner
 /CBL-MarinerDemo
+/CBL-Mariner-Run
+/mariner-arm64
