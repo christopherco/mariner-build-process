@@ -39,7 +39,7 @@ if ! [ -d "CBL-MarinerDemo" ]; then
     git clone https://github.com/microsoft/CBL-MarinerDemo.git
 fi
 
-mkdir -p /mariner-arm64
+mkdir -p ./mariner-arm64
 
 #Build the toolkit
 pushd CBL-Mariner/toolkit
