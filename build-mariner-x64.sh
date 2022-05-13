@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#RUN ME on ARM64 Hardware!
-# CPU_ARCH=$(uname -m)
-# if [[ "$CPU_ARCH" != "aarch64" ]]; then
-#     echo "Build script must run on ARM64 hardware.  Please rerun"
-#     exit 1
-# fi
+#RUN ME on x64 Hardware!
+CPU_ARCH=$(uname -m)
+if [[ "$CPU_ARCH" != "x86_64" ]]; then
+    echo "Build script must run on ARM64 hardware.  Please rerun"
+    exit 1
+fi
 
 #Run as sudo if we're not already
 if ! [[ "$EUID" = 0 ]]; then    
@@ -67,7 +67,7 @@ popd
 
 #Tar up the results
 pushd CBL-MarinerDemo/out/images
-tar -czvf ../../../CBL-Mariner-Run/mariner-arm64.tar.gz ./* 
+tar -czvf ../../../CBL-Mariner-Run/mariner-amd64.tar.gz ./* 
 popd
 
 
