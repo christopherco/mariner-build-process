@@ -2,7 +2,7 @@
 
 #RUN ME on ARM64 Hardware!
 CPU_ARCH=$(uname -m)
-if ["$CPU_ARCH" -ne "aarch64"]; then
+if [[ "$CPU_ARCH" != "aarch64" ]]; then
     echo "Build script must run on ARM64 hardware.  Please rerun"
     exit 1
 fi
@@ -39,7 +39,7 @@ if ! [ -d "CBL-MarinerDemo" ]; then
     git clone https://github.com/microsoft/CBL-MarinerDemo.git
 fi
 
-mkdir -p ./mariner-arm64
+mkdir -p ./CBL-Mariner-Run
 
 #Build the toolkit
 pushd CBL-Mariner/toolkit
@@ -67,5 +67,8 @@ popd
 
 #Tar up the results
 pushd CBL-MarinerDemo/out/images
-tar -czvf ../../mariner-arm64/mariner-arm64.tar.gz ./* 
+tar -czvf ../../../CBL-Mariner-Run/mariner-arm64.tar.gz ./* 
 popd
+
+
+echo "Transfer the mariner-arm64.tar.gz file to the x64 machine / CBL-Mariner-Run directory"
