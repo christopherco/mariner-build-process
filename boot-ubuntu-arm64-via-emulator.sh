@@ -63,5 +63,5 @@ qemu-system-aarch64 \
   -drive "if=none,file=${UBUNTU_RUN_DIR}/${UBUNTU_IMG},id=hd0" \
   -device virtio-blk-device,drive=hd0 \
   -drive "file=${UBUNTU_RUN_DIR}/${DATA_DRIVE},format=raw" \
-  -pflash "$UBUNTU_RUN_DIR/$FLASH0" \
-  -pflash "$UBUNTU_RUN_DIR/$FLASH1"
+  -pflash ${UBUNTU_RUN_DIR}/${FLASH0} \
+  -pflash ${UBUNTU_RUN_DIR}/${FLASH1}
