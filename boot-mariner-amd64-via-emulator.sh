@@ -97,4 +97,5 @@ qemu-system-x86_64 -nographic \
     -cpu max \
     -netdev user,id=vnet,hostfwd=:127.0.0.1:0-:22 -device virtio-net-pci,netdev=vnet \
     -drive file=${MARINER_RUN_DIR}/${DATADRIVE},if=none,id=drive0,cache=writeback -device virtio-blk,drive=drive0,bootindex=0 \
-    -drive file=${MARINER_ISO},if=none,id=drive1,cache=writeback -device virtio-blk,drive=drive1,bootindex=1
+    -drive file=${MARINER_ISO},if=none,id=drive1,cache=writeback -device virtio-blk,drive=drive1,bootindex=1 \
+    -drive file=${MARINER_RUN_DIR}/${FLASH0},format=raw,if=pflash

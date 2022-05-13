@@ -15,6 +15,8 @@ MEMORY_GB=$((((MEMORY_GB))/1024)) #Convert KB to MB
 MEMORY_GB=$((((MEMORY_GB))/1024)) #Convert MB to GB
 
 
+mkdir -p $MARINER_RUN_DIR
+
 #RUN ME on X86_64 Hardware!
 CPU_ARCH=$(uname -m)
 if [[ "$CPU_ARCH" != "x86_64" ]]; then
@@ -56,13 +58,13 @@ if ! [[ "$EUID" = 0 ]]; then
 fi
 
 #Our machine has more memory than our configured max.  Set it to the max
-if [$MEMORY_GB -gt $MAX_MEMORY_GB]; then
+if [[ $MEMORY_GB -gt $MAX_MEMORY_GB ]]; then
     MEMORY_GB=$MAX_MEMORY_GB
 fi
 
 #Our machine has more cores than our configured max.  Set it to the max
-if [$CORECOUNT -gt $MAX_CORE_COUNT]; then
-    $CORECOUNT = $MAX_CORE_COUNT
+if [[ $CORECOUNT -gt $MAX_CORE_COUNT ]]; then
+    CORECOUNT=$MAX_CORE_COUNT
 fi
 
 #Install any packages that are missing
