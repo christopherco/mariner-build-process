@@ -44,7 +44,7 @@ mkdir -p ./CBL-Mariner-Run
 
 #Build the toolkit
 pushd CBL-Mariner/toolkit
-git checkout 1.0-stable
+git checkout 2.0-stable
 #Clean the output just in case
 sudo make clean
 
