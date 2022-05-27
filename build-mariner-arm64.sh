@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x 
 #RUN ME on ARM64 Hardware!
 # CPU_ARCH=$(uname -m)
 # if [[ "$CPU_ARCH" != "aarch64" ]]; then
@@ -25,7 +26,7 @@ if ! [ -f "/usr/bin/go" ];then
     #Go isn't installed.  Go installed it
     sudo add-apt-repository ppa:longsleep/golang-backports
     sudo apt-get update
-    golang-1.15-go
+    sudo apt-get -y install golang-1.15-go
     sudo ln -vsf /usr/lib/go-1.15/bin/go /usr/bin/go    
 fi
 
