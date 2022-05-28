@@ -63,13 +63,7 @@ popd
 pushd CBL-MarinerDemo/toolkit
 #Go make an iso out of the default demo_iso
 sudo make clean
-sudo make iso CONFIG_FILE=../imageconfigs/demo_iso.json UNATTENDED_INSTALLER=y
+sudo make iso CONFIG_FILE=../imageconfigs/demo_iso.json
 popd
-
-#Tar up the results
-pushd CBL-MarinerDemo/out/images
-tar -czvf ../../../CBL-Mariner-Run/mariner-arm64.tar.gz ./* 
-popd
-
 
 echo "Transfer the mariner-arm64.tar.gz file to the x64 machine / CBL-Mariner-Run directory"
