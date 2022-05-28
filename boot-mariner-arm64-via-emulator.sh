@@ -94,12 +94,12 @@ echo "-------------------------"
 echo ""
 echo ""
 
-qemu-system-aarch64 -nographic -machine virt,gic-version=max \
+qemu-system-aarch64 -nographic -machine virt,gic-version=3 \
     -m ${MEMORY_GB}G \
-    -cpu max \
+    -cpu cortex-a57 \
     -smp ${CORECOUNT} \
     -netdev user,id=vnet,hostfwd=:127.0.0.1:0-:22 -device virtio-net-pci,netdev=vnet \
-    -drive file=${MARINER_RUN_DIR}/${DATADRIVE},if=none,id=drive0,cache=writeback -device virtio-blk,drive=drive0,bootindex=0 \
+    -drive file=${MARINER_RUN_DIR}/${DATADRIVE},if=none,id=drive0,cache=writeback -device virtio-blk,drive=drive0,bootindex=2 \
     -drive file=${MARINER_ISO},if=none,id=drive1,cache=writeback -device virtio-blk,drive=drive1,bootindex=1 \
     -drive file=${MARINER_RUN_DIR}/${FLASH0},format=raw,if=pflash \
     -drive file=${MARINER_RUN_DIR}/${FLASH1},format=raw,if=pflash 
