@@ -54,6 +54,8 @@ popd
 
 
 pushd CBL-MarinerDemo
+#Clean out any old toolkit archives
+rm toolkit-*.tar.gz
 #Copy the toolkit from Mariner and extract it here
 cp ../CBL-Mariner/out/toolkit-*.tar.gz ./
 tar -xzvf toolkit-*.tar.gz
@@ -66,4 +68,3 @@ sudo make clean
 sudo make iso CONFIG_FILE=../imageconfigs/demo_iso.json
 popd
 
-echo "Transfer the mariner-arm64.tar.gz file to the x64 machine / CBL-Mariner-Run directory"
