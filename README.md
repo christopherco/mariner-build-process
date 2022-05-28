@@ -3,7 +3,7 @@ Experimental / Spike on getting CBL-Mariner (ARM64) to run on X86 hardware via Q
 
 # Generate ARM64 stuff
 1. Clone this repo on ARM64 hardware
-1. Run `bash build-mariner-arm64.sh`
+1. Run `sudo ./build-mariner-arm64.sh`
 
 # Untested stuff below...
 
