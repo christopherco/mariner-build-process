@@ -2,9 +2,10 @@
 Experimental / Spike on getting CBL-Mariner (ARM64) to run on X86 hardware via QEMU
 
 # Generate ARM64 stuff
-1. Clone this repo via ARM64 hardware
+1. Clone this repo on ARM64 hardware
 1. Run `bash build-mariner-arm64.sh`
-1. Download the **mariner-arm64.tar.gz** in the **CBL-Mariner-Run** directory
+
+# Untested stuff below...
 
 # Run ARM on x64
 1. Clone this repo
