@@ -40,8 +40,6 @@ if ! [ -d "CBL-MarinerDemo" ]; then
     git clone https://github.com/microsoft/CBL-MarinerDemo.git
 fi
 
-mkdir -p ./CBL-Mariner-Run
-
 #Build the toolkit
 pushd CBL-Mariner/toolkit
 git checkout 2.0-stable
@@ -61,10 +59,20 @@ cp ../CBL-Mariner/out/toolkit-*.tar.gz ./
 tar -xzvf toolkit-*.tar.gz
 popd
 
+# Build kernel spec
+cp -R CBL-Mariner/SPECS/kernel CBL-MarinerDemo/SPECS/
+KERNEL_PACKAGE_NAME=kernel
+mv CBL-MarinerDemo/SPECS/kernel CBL-MarinerDemo/SPECS/$KERNEL_PACKAGE_NAME
+pushd CBL-MarinerDemo/SPECS/$KERNEL_PACKAGE_NAME
+# pull tarball locally from GitHub repo
+KVER=5.15.41.1
+wget https://github.com/microsoft/CBL-Mariner-Linux-Kernel/archive/rolling-lts/mariner-2/$KVER.tar.gz -O kernel-$KVER.tar.gz
+popd
 
 pushd CBL-MarinerDemo/toolkit
 #Go make an iso out of the default demo_iso
 sudo make clean
-sudo make iso CONFIG_FILE=../imageconfigs/demo_iso.json
+sudo make build-packages
+#sudo make iso CONFIG_FILE=../imageconfigs/demo_iso.json
 popd
 
