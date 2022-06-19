@@ -37,7 +37,9 @@ fi
 
 if ! [ -d "CBL-MarinerDemo" ]; then
     #CBL-MarinerDemo isn't cloned.  Grab it
-    git clone https://github.com/microsoft/CBL-MarinerDemo.git
+    #
+    #Checkout Chris' version with a custom kernel spec definition 
+    git clone -b chrco/custom-kernel https://github.com/christopherco/CBL-MarinerDemo.git
 fi
 
 #Build the toolkit
@@ -59,10 +61,8 @@ cp ../CBL-Mariner/out/toolkit-*.tar.gz ./
 tar -xzvf toolkit-*.tar.gz
 popd
 
-# Build kernel spec
-cp -R CBL-Mariner/SPECS/kernel CBL-MarinerDemo/SPECS/
-KERNEL_PACKAGE_NAME=kernel
-mv CBL-MarinerDemo/SPECS/kernel CBL-MarinerDemo/SPECS/$KERNEL_PACKAGE_NAME
+# Build custom-kernel spec which should be in the CBL-MarinerDemo source tree
+KERNEL_PACKAGE_NAME=custom-kernel
 pushd CBL-MarinerDemo/SPECS/$KERNEL_PACKAGE_NAME
 # pull tarball locally from GitHub repo
 KVER=5.15.41.1
@@ -72,7 +72,12 @@ popd
 pushd CBL-MarinerDemo/toolkit
 #Go make an iso out of the default demo_iso
 sudo make clean
-sudo make build-packages
-#sudo make iso CONFIG_FILE=../imageconfigs/demo_iso.json
+
+# build-packages target is not  needed because the iso target should build any unbuilt packages.
+# Leaving the build-packages target here for reference and future debugging purposes
+#
+# sudo make build-packages
+
+sudo make iso CONFIG_FILE=../imageconfigs/demo_iso.json
 popd
 
